@@ -14,7 +14,7 @@ class Solution:
         while i <= k:
             idx = np.argmin(minimum_list)
             if i == k:
-                return min(minimum_list) #matrix[idx].pop(0)
+                return min(minimum_list)
             else:
                 if len(matrix[idx]) == 0:
                     minimum_list[idx] = np.inf
