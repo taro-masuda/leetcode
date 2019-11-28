@@ -20,26 +20,25 @@ class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         if len(nums) < 3:
             return []
+        nums.sort()
         
         out = []
+        print('a')
         
-        for i,n in enumerate(nums):
-            
-            if i == 0:
-                #print(nums[i+1:], n)
-                l_twosum = self.twoSum(nums[i+1:], -n)
-            elif i == len(nums)-1:
-                #print(nums[:i], n)
-                l_twosum = self.twoSum(nums[:i], -n)
-            else:
-                #print(nums[:i] + nums[i+1:], n)
-                l_twosum = self.twoSum(nums[:i] + nums[i+1:], -n)
+        i = 0
+        #for i,n in enumerate(nums):
+        while len(nums) >= 3:
+            if nums[0] > 0:
+                break
+            l_twosum = self.twoSum(nums[1:], -nums[0])
             if l_twosum != None:
                 #print(l_twosum, i, n)
                 out.extend(l_twosum)
-        
+            nums.pop(0)
+            
+        print('b')
         for i,l in enumerate(out):
             out[i] = sorted(l)
-        print(out)
+        print('c')
         out = list(map(list, set(map(tuple, out))))
         return out
