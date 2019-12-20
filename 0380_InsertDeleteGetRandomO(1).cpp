@@ -1,7 +1,7 @@
 class RandomizedSet {
 private:
-    std::random_device rnd;     // 非決定的な乱数生成器
-    std::unordered_map<int, int> mp;    //  文字列 → 整数 の連想配列
+    std::random_device rnd;
+    std::unordered_map<int, int> mp;
 public:
     /** Initialize your data structure here. */
     RandomizedSet() {
