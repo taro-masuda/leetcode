@@ -18,15 +18,16 @@ public:
         vector<vector<bool>> visited(R, vector<bool>(C));
         struct Point p;
         
+        
         for (int r = 0; r < R; r++) {
             for (int c = 0; c < C; c++) {
-                // Depth-First-Search
                 if(!visited[r][c] && grid[r][c] == '1'){
                     p.r = r;
                     p.c = c;
                     s.push(p);
                     num++;
                 } else continue;
+                // Depth-First-Search
                 while (s.size() > 0) {
                     struct Point p = s.top();
                     s.pop();
@@ -36,6 +37,7 @@ public:
                         if (!visited[p.r][p.c+1] && grid[p.r][p.c+1] == '1') {
                             q.r = p.r;
                             q.c = p.c+1;
+                            visited[q.r][q.c] = true;
                             s.push(q);
                         }
                     }
@@ -43,6 +45,7 @@ public:
                         if (!visited[p.r+1][p.c] && grid[p.r+1][p.c] == '1') {
                             q.r = p.r+1;
                             q.c = p.c;
+                            visited[q.r][q.c] = true;
                             s.push(q);
                         }
                     }
@@ -50,6 +53,7 @@ public:
                         if (!visited[p.r][p.c-1] && grid[p.r][p.c-1] == '1') {
                             q.r = p.r;
                             q.c = p.c-1;
+                            visited[q.r][q.c] = true;
                             s.push(q);
                         }
                     }
@@ -57,6 +61,7 @@ public:
                         if(!visited[p.r-1][p.c] && grid[p.r-1][p.c] == '1') {
                             q.r = p.r-1;
                             q.c = p.c;
+                            visited[q.r][q.c] = true;
                             s.push(q);
                         }
                     }
