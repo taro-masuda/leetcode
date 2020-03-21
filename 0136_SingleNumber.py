@@ -1,10 +1,12 @@
 class Solution:
     def singleNumber(self, nums: List[int]) -> int:
-        idx = 0
-        nums.sort()
-        while idx < len(nums):
-            if nums.count(nums[idx]) == 1:
-                return nums[idx]
+        d = {}
+        for n in nums:
+            if n not in d:
+                d[n] = 1
             else:
-                nums.pop(idx)
-                nums.pop(idx)
+                d[n] += 1
+                
+        for num, cnt in d.items():
+            if cnt == 1:
+                return num
