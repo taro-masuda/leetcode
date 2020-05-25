@@ -9,7 +9,7 @@ class Solution:
             idx = complement.get(n, None)
             if idx != None and idx != i:
                 out.append([nums[idx], nums[i]])
-                
+               
         return out
                 
     def threeSum(self, nums: List[int]) -> List[List[int]]:
@@ -18,7 +18,7 @@ class Solution:
         nums.sort()
         
         out = []
-        
+       
         if set(nums) == {0}:
             return [[0,0,0]]
         
