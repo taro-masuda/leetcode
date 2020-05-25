@@ -1,13 +1,15 @@
-import bisect
-
 class Solution:
     
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
+    def twoSum(self, nums: List[int], target: int) -> List[List[int]]:
+        complement = {}
         out = []
-        while len(nums) >= 2:
-            if nums.count(-target-nums[0]) > 0:
-                out.append([-target-nums[0], nums[0], target])
-            nums.pop(0)
+        for i,n in enumerate(nums):
+            complement[target-n] = i
+        for i,n in enumerate(nums):
+            idx = complement.get(n, None)
+            if idx != None and idx != i:
+                out.append([nums[idx], nums[i]])
+               
         return out
                 
     def threeSum(self, nums: List[int]) -> List[List[int]]:
@@ -16,16 +18,18 @@ class Solution:
         nums.sort()
         
         out = []
+       
+        if set(nums) == {0}:
+            return [[0,0,0]]
         
         i = 0
         while len(nums) >= 3:
-            if nums[0] > 0:
-                break
-            l_twosum = self.twoSum(nums[1:], nums[0])
+            l_twosum = self.twoSum(nums[1:], -nums[0])
             if l_twosum != None:
-                out.extend(l_twosum)
+                for l in l_twosum:
+                    l.append(nums[0])
+                    out.append(l)
             nums.pop(0)
-            
         for i,l in enumerate(out):
             out[i] = sorted(l)
         out = list(map(list, set(map(tuple, out))))

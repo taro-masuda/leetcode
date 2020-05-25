@@ -1,43 +1,36 @@
-import re
-
 class Solution:
     def calculate(self, s: str) -> int:
-        s = s.replace(' ', '')
-        num_list = re.split('[+\-*/]', s)
-        sign_list = re.split('\d+', s)
-        sign_list.pop(-1)
-        sign_list.pop(0)
-        num_list = list(map(int, num_list))
-        
-        if len(num_list) == 0:
-            return None
-        
-        idx = 0
-        while len(sign_list) > 0:
-            #print(sign_list, num_list)
-            if idx >= len(sign_list):
-                idx = len(sign_list) - 1
-                
-            if sign_list[idx] == '*':
-                result = num_list[idx] * num_list[idx+1]
-                sign_list.pop(idx)
-                num_list.pop(idx+1)
-                num_list[idx] = result
-            elif sign_list[idx] == '/':
-                result = int(num_list[idx] / num_list[idx+1])
-                sign_list.pop(idx)
-                num_list.pop(idx+1)
-                num_list[idx] = result
-            elif sign_list.count('*') == 0 and sign_list.count('/') == 0:
-                idx = 0
-                if sign_list[idx] == '+':
-                    result = num_list[idx] + num_list[idx+1]
-                else:
-                    result = num_list[idx] - num_list[idx+1]
-                sign_list.pop(idx)
-                num_list.pop(idx+1)
-                num_list[idx] = result
+        signs = []; nums = []
+        digitup = 0
+        for i, char in enumerate(s):
+            if char == " ":
+                continue
+            elif char == "+" or char == "-" or char == "*" or char == "/":
+                signs.append(char)
+                digitup = 0
+            elif digitup == 0:
+                nums.append(digitup*10 + int(char))
+                digitup = int(digitup*10 + int(char))
             else:
+                nums[-1] *= 10
+                nums[-1] += int(char)
+                digitup = nums[-1]
+        idx = 0
+        while idx < len(signs):
+            if signs[idx] == "+" or signs[idx] == "-":
                 idx += 1
+                continue
+            elif signs[idx] == "*":
+                nums[idx] *= nums[idx+1]
+                nums.pop(idx+1); signs.pop(idx)
+            else:
+                nums[idx] = int(nums[idx] / nums[idx+1])
+                nums.pop(idx+1); signs.pop(idx)
             
-        return num_list[0]
+        while len(signs) > 0:
+            if signs[0] == "+":
+                nums[0] += nums[1]
+            else:
+                nums[0] -= nums[1]
+            nums.pop(1); signs.pop(0)
+        return nums[0]
