@@ -1,36 +1,54 @@
 class Solution:
     def searchRange(self, nums: List[int], target: int) -> List[int]:
-        left = int(len(nums) / 2)
-        right = min(int(len(nums) / 2) + 1, len(nums)-1)
-        leftstart = 0
-        leftend = len(nums)
-        rightstart = 0
-        rightend = len(nums)-1
-        
-        while left <= right:
-            if left == right:
-                if nums[left] != target:
-                    return [-1,-1]
-                else:
-                    return [left,right]
-            if nums[left-1] < target and nums[left] == target and nums[right+1] > target and nums[right] == target:
-                return [left, right]
+        N = len(nums)
+        if N == 0:
+            return [-1,-1]
+        if N == 1:
+            if nums[0] == target:
+                return [0,0]
             else:
-                if nums[left] < target:
-                    leftstart = left
-                elif nums[left] > target:
-                    leftend = left
-                elif nums[left-1] != target:
-                    leftstart = left
-                left = int((leftstart+leftend) / 2)
-                
-                if nums[right] > target:
-                    rightend = right
-                elif nums[right] < target:
-                    rightstart = right
-                elif nums[right+1] != target:
-                    rightend = right
-                right = int((rightstart+rightend) / 2)
-            
-            print(left, right)
-        return [-1,-1]
+                return [-1,-1]
+        elif N == 2:
+            if nums[0] == target:
+                if nums[1] == target:
+                    return [0,1]
+                else:
+                    return [0,0]
+            elif nums[1] == target:
+                return [1,1]
+            else:
+                return [-1,-1]
+        bgn = self.search(nums, target, "start")
+        end = self.search(nums, target, "end")
+        return [bgn, end]
+    
+    def search(self, nums, target, start_end):
+        N = len(nums)
+        left = 0; right = N
+        while right - left > 1:
+            mid = int((left + right) / 2)
+            if start_end == "start":
+                if mid == 0 and nums[mid] == target:
+                    return mid
+                elif nums[mid] == target and nums[mid-1] < target:
+                    return mid
+            else:
+                if mid+1 == N and nums[mid] == target:
+                    return mid
+                if nums[mid] == target and nums[mid+1] > target:
+                    return mid
+            if nums[mid] > target:
+                right = mid
+            elif nums[mid] < target:
+                left = mid
+            else:
+                if start_end == "start":
+                    right = mid
+                else:
+                    left = mid
+        if nums[left] == target:
+            return left
+        elif nums[mid] == target and start_end == "end":
+            return mid
+        else:
+            return -1
