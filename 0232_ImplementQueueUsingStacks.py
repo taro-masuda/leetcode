@@ -11,36 +11,35 @@ class MyQueue:
         """
         Push element x to the back of queue.
         """
-        if len(self.qmain) == 0:
-            self.qmain.append(x)
-        else:
-            while len(self.qmain) > 0:
-                self.qsub.append(self.qmain[-1])
-                self.qmain.pop(-1)
-            self.qsub.append(x)
-            while len(self.qsub) > 0:
-                self.qmain.append(self.qsub[-1])
-                self.qsub.pop(-1)
+        self.qmain.append(x)
 
     def pop(self) -> int:
         """
         Removes the element from in front of queue and returns that element.
         """
-        val = self.qmain[-1]
-        self.qmain.pop(-1)
+        if len(self.qsub) == 0:
+            while len(self.qmain) > 0:
+                self.qsub.append(self.qmain[-1])
+                self.qmain.pop(-1)
+        val = self.qsub[-1]
+        self.qsub.pop(-1)
         return val
 
     def peek(self) -> int:
         """
         Get the front element.
         """
-        return self.qmain[-1]
+        if len(self.qsub) == 0:
+            while len(self.qmain) > 0:
+                self.qsub.append(self.qmain[-1])
+                self.qmain.pop(-1)
+        return self.qsub[-1]
 
     def empty(self) -> bool:
         """
         Returns whether the queue is empty.
         """
-        return len(self.qmain) == 0
+        return len(self.qmain) + len(self.qsub) == 0
 
 
 # Your MyQueue object will be instantiated and called as such:
