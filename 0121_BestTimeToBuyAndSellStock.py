@@ -1,12 +1,9 @@
-import sys
-
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
+        min_val = 2**64
+        N = len(prices)
         max_profit = 0
-        min_val = sys.maxsize
-        
-        for i in prices:
-            min_val = min(min_val, i)
-            max_profit = max(max_profit, i - min_val)
-            
+        for i in range(N):
+            min_val = min(min_val, prices[i])
+            max_profit = max(max_profit, prices[i]-min_val)
         return max_profit
